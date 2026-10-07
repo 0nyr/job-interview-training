@@ -2,3 +2,4 @@
 /vim/rust/hello
 __pycache__/
 *.pyc
+/.build/

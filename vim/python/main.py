@@ -1,5 +1,5 @@
 # Exercise: complete greet() so the program prints exactly Hello World and a newline.
-# From the project root: nix develop path:./nix-dev
+# From the parent workspace: nix develop path:./nix-dev, then cd job-interview-training
 # Open: vim vim/python/main.py
 # Check syntax: python3 -m py_compile vim/python/main.py
 # Run: python3 vim/python/main.py

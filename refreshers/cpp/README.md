@@ -10,13 +10,13 @@ For TASK 01, `unique_ordered({3, 1, 3, 2})` currently returns `{1, 2, 3}` becaus
 
 Work on one function at a time: read its TASK comment, run its check, edit the function, and rerun the check. 🟢 means the task's checks pass. 🔴 means they have not passed; the output explains the failed condition or compilation/runtime error.
 
-`--run` executes demonstrations without validating answers. `test_00_examples_run` is only a check that the examples execute, not a completed practice task. Run without `--run` to validate your changes.
+`--examples` executes demonstrations without validating answers. `test_00_examples_run` is only a check that the examples execute, not a completed practice task. Run without `--examples` to validate your changes.
 
 From the workspace root:
 
 ```bash
-python src/train.py job-interview-training/refreshers/cpp --run
-python src/train.py job-interview-training/refreshers/cpp --task test_01_unique_ordered
+python src/train.py job-interview-training/refreshers/cpp --examples
+python src/train.py job-interview-training/refreshers/cpp --task 1
 python src/train.py job-interview-training/refreshers/cpp
 ```
 

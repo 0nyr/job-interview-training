@@ -5,6 +5,6 @@ Edit `main.cpp` using the Vim instructions in its comments. Make the program pri
 From the parent workspace:
 
 ```bash
-python src/train.py job-interview-training/vim/cpp --run
+python src/train.py job-interview-training/vim/cpp --examples
 python src/train.py job-interview-training/vim/cpp
 ```

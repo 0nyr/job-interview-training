@@ -13,7 +13,7 @@ Edit each directory's `main.py` or `main.cpp`. Keep practice edits uncommitted t
 
 ## Exercise contract
 
-Each directory has exactly one learner file, `main.py` or `main.cpp`, plus `test.py` containing standard-library unittest cases. Use descriptive method names such as `test_01_unique_ordered`. Each method represents one task and may check several edge cases. Tests must be independent, since the runner executes each method in a fresh process.
+Each directory has exactly one learner file, `main.py` or `main.cpp`, plus `test.py` containing standard-library unittest cases. Use descriptive method names such as `test_01_unique_ordered`. Each method represents one task and may check several edge cases. In the Python refresher, `task_01_unique_ordered` corresponds to `test_01_unique_ordered`, selected with `--task 1`. Place independent examples before the tasks, and begin each task docstring with `TASK 1:` and its objective, followed by a blank line and the placeholder explanation. Tests must be independent, since the runner executes each method in a fresh process.
 
 Python function tests import `main`. Console tests execute `main.py` with `sys.executable` and use `subprocess.run` to supply input and inspect output. Keep the learner's demonstration entry point under `if __name__ == "__main__"` so importing functions does not run it.
 
@@ -43,4 +43,4 @@ g++ -std=c++23 -Wall -Wextra -Wpedantic -O0 -g refreshers/cpp/test.cpp -o .build
 TRAINING_MAIN_BINARY="$PWD/.build/cpp-main" TRAINING_TEST_BINARY="$PWD/.build/cpp-test" python3 -m unittest discover -s refreshers/cpp -p test.py -v
 ```
 
-In the parent workspace, enter its Nix shell and use `python src/train.py job-interview-training/refreshers/python` or the corresponding C++ directory. Add `--run` to execute examples, or `--task test_01_unique_ordered` to check a single task. The Nix shell lives in the parent workspace, not this public repository.
+In the parent workspace, enter its Nix shell and use `python src/train.py job-interview-training/refreshers/python` or the corresponding C++ directory. Add `--examples` to execute examples, or `--task 1` to check a single task. The Nix shell lives in the parent workspace, not this public repository.

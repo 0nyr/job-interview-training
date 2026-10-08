@@ -1,28 +1,29 @@
 # Python recall lab
 
-Open `main.py`, run the examples, then work through TASK 01 to TASK 12. Each function initially demonstrates a nearby language feature; change it to meet the requested contract. Read the corresponding checks in `test.py` when the required behavior is unclear. No completed answer file is included.
+Read `examples()` at the top of `main.py`, then run it to refresh your Python syntax. Each example has an introductory comment and executes independently of the tasks. Work through TASK 1 to TASK 12 below it. No completed answer file is included.
 
 ## What to do
 
-The functions contain runnable code, but their starting behavior deliberately does not satisfy the TASK comments. Your job is to change that behavior. A function having a body does not mean the task is completed.
+Each task function is named `task_XX_description`, such as `task_03_word_counts`. Its docstring states the objective first. After a blank line, it explains the current placeholder and the behavior to change. The starter bodies execute, but deliberately fail the task contracts.
 
-For TASK 01, `unique_ordered([3, 1, 3, 2])` currently returns `[1, 2, 3]` because it sorts the distinct values. The task requires `[3, 1, 2]`: keep the first occurrence of each value in its original order. Change the body of `unique_ordered` to achieve that, then run its named test. Do not change the test's expected answer.
+For TASK 1, `task_01_unique_ordered([3, 1, 3, 2])` must return `[3, 1, 2]`, preserving the first occurrence of each value. The placeholder returns `[1, 2, 3]` because it sorts the distinct values. Modify the function, then run `--task 1` to check it. Do not change the test's expected answer.
 
-For TASK 02, the starting dictionary comprehension keeps the last event seen for each user. The requested behavior is to keep the largest timestamp, even when events arrive out of order. These coincide for some inputs, but not all. Each task's tests include cases that expose the difference.
+1. Read a task's objective and placeholder explanation.
+2. Run `--task X`, replacing `X` with its number, to see a failing example.
+3. Edit that task function in `main.py`, save it, and rerun the check.
+4. When it shows 🟢, proceed to the next task. 🔴 means the checks have not passed. Read the accompanying failure or error.
 
-1. Read one TASK comment and compare its requested behavior with the existing function.
-2. Run the named task check to see a failing example.
-3. Edit only that function in `main.py`, save it, and rerun the check.
-4. When it shows 🟢, proceed to the next task. 🔴 means the checks have not passed; read the accompanying failure or error.
-
-`--run` only runs demonstrations. It does not validate your answers. `test_00_examples_run` only checks that the examples execute successfully; it is not a completed practice task. Use the test command without `--run` to validate your changes. In the assertion messages, the function's actual result appears before the expected result.
+`--examples` runs the independent examples without checking your answers. Run without that flag to validate all tasks, or select one with `--task X`. In assertion messages, the actual result appears before the expected result.
 
 From the workspace root:
 
 ```bash
-python src/train.py job-interview-training/refreshers/python --run
-python src/train.py job-interview-training/refreshers/python --task test_01_unique_ordered
+python src/train.py job-interview-training/refreshers/python --examples
+python src/train.py job-interview-training/refreshers/python --task 1
+python src/train.py job-interview-training/refreshers/python --task 3
 python src/train.py job-interview-training/refreshers/python
 ```
 
-Initially the example test passes and the 12 task tests fail. Work in short groups of tasks, explain the time and memory complexity, and record which operations required a hint. Code changes stay uncommitted during practice. Review the diff before deliberately restoring a file for another attempt.
+Function names such as `--task task_03_word_counts`, test method names such as `--task test_03_word_counts`, and full unittest IDs are also accepted. `--task 0` selects `test_00_examples_run`, which checks that the examples run independently of the task implementations. It is not a practice task.
+
+Initially the example check passes and all 12 task tests fail. Read the corresponding checks in `test.py` when the contract is unclear. Work in short groups of tasks, explain the time and memory complexity, and record which operations required a hint. Keep practice changes uncommitted and review the diff before deliberately restoring a file for another attempt.

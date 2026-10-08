@@ -5,6 +5,6 @@ Edit `main.py` using the Vim instructions in its comments. Make the program prin
 From the parent workspace:
 
 ```bash
-python src/train.py job-interview-training/vim/python --run
+python src/train.py job-interview-training/vim/python --examples
 python src/train.py job-interview-training/vim/python
 ```

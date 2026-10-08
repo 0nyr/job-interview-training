@@ -28,6 +28,15 @@ class Tasks(unittest.TestCase):
     def test_03_word_counts(self):
         self.assertEqual(main.word_counts([" Cat ", "cat", "DOG", "", "  "]), {"cat": 2, "dog": 1})
         self.assertEqual(main.word_counts([]), {})
+        # Normalize each entry without splitting or collapsing internal whitespace.
+        cases = [
+            ([" New York ", "new york"], {"new york": 2}),
+            ([" a\tb ", "A\tB"], {"a\tb": 2}),
+            (["A  B", "a b"], {"a  b": 1, "a b": 1}),
+        ]
+        for words, expected in cases:
+            with self.subTest(words=words):
+                self.assertEqual(main.word_counts(words), expected)
 
     def test_04_rank_scores(self):
         data = [("Zoe", 9), ("Ada", 8), ("Bob", 9)]

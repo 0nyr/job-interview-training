@@ -51,9 +51,10 @@ class Tasks(unittest.TestCase):
     def test_06_pair_totals(self):
         self.assertEqual(main.pair_totals([2, -1], [3, 4]), [5, 3])
         self.assertEqual(main.pair_totals([], []), [])
-        for left, right in [([1], []), ([], [1])]:
-            with self.assertRaises(ValueError):
-                main.pair_totals(left, right)
+        for left, right in [([1], []), ([], [1]), ([1, 2], [3]), ([1], [2, 3])]:
+            with self.subTest(left=left, right=right):
+                with self.assertRaises(ValueError):
+                    main.pair_totals(left, right)
 
     def test_07_normalize_words(self):
         self.assertEqual(main.normalize_words("  Hello\tPYTHON\n world  "), "hello-python-world")
@@ -78,6 +79,8 @@ class Tasks(unittest.TestCase):
         graph = {"a": ["b", "c"], "b": ["a", "d"], "c": ["d"], "d": ["e"], "z": []}
         self.assertEqual(main.bfs_distances(graph, "a"), {"a": 0, "b": 1, "c": 1, "d": 2, "e": 3})
         self.assertEqual(main.bfs_distances({}, "x"), {"x": 0})
+        graph = {"a": ["a", "b", "b"], "b": ["a", "b", "c", "c"], "z": ["z"]}
+        self.assertEqual(main.bfs_distances(graph, "a"), {"a": 0, "b": 1, "c": 2})
 
     def test_11_running_totals(self):
         self.assertEqual(list(main.running_totals(iter([2, -1, 4]))), [2, 1, 5])
@@ -89,6 +92,22 @@ class Tasks(unittest.TestCase):
         self.assertIs(iter(iterator), iterator)
         self.assertEqual(next(iterator), 7)
 
+        consumed = []
+
+        def tracked_source():
+            for value in (2, -1, 4):
+                consumed.append(value)
+                yield value
+
+        iterator = main.running_totals(tracked_source())
+        self.assertEqual(consumed, [], "Constructing the result must not consume input")
+        for expected_total, expected_consumed in [(2, [2]), (1, [2, -1]), (5, [2, -1, 4])]:
+            with self.subTest(expected_total=expected_total):
+                self.assertEqual(next(iterator), expected_total)
+                self.assertEqual(consumed, expected_consumed, "Consume exactly one item per yield")
+        with self.assertRaises(StopIteration):
+            next(iterator)
+
     def test_12_append_copy(self):
         values = [1]
         result = main.append_copy(2, values)
@@ -97,6 +116,18 @@ class Tasks(unittest.TestCase):
         self.assertIsNot(result, values)
         self.assertEqual(main.append_copy(8), [8])
         self.assertEqual(main.append_copy(9), [9])
+        empty = []
+        result = main.append_copy(2, empty)
+        self.assertEqual(result, [2])
+        self.assertEqual(empty, [])
+        self.assertIsNot(result, empty)
+
+        first = main.append_copy(8)
+        first.append(99)
+        second = main.append_copy(9)
+        self.assertEqual(first, [8, 99])
+        self.assertEqual(second, [9])
+        self.assertIsNot(first, second)
 
 
 if __name__ == "__main__":

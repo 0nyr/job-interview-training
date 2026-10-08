@@ -13,7 +13,19 @@ Edit each directory's `main.py` or `main.cpp`. Keep practice edits uncommitted t
 
 ## Exercise contract
 
-Each directory has exactly one learner file, `main.py` or `main.cpp`, plus `test.py` containing standard-library unittest cases. Use descriptive method names such as `test_01_unique_ordered`. Each method represents one task and may check several edge cases. In the Python refresher, `task_01_unique_ordered` corresponds to `test_01_unique_ordered`, selected with `--task 1`. Place independent examples before the tasks, and begin each task docstring with `TASK 1:` and its objective, followed by a blank line and the placeholder explanation. Tests must be independent, since the runner executes each method in a fresh process.
+Each directory has exactly one learner file, `main.py` or `main.cpp`, plus `test.py` containing standard-library unittest cases. Use descriptive method names such as `test_01_unique_ordered`. Each method represents one task and may check several edge cases. In both refreshers, `task_01_unique_ordered` corresponds to `test_01_unique_ordered`, selected with `--task 1`. Tests must be independent, since the runner executes each method in a fresh process.
+
+### Refresher format for every language
+
+Use this structure for Python, C++, and future language refreshers:
+
+1. Put a runnable `examples()` section before the tasks, after any necessary imports, includes, and shared types. Introduce each small example with a comment explaining the feature. Examples must not call learner task functions.
+2. Name task functions `task_XX_description`, keeping full parameter and return types where the language supports them. Use consecutive numbers within each refresher, not cross-language topic numbering.
+3. Begin each task's docstring or preceding comment with `TASK X:` and the requested behavior, including necessary edge cases and mutation constraints. Add a blank line, then explain the placeholder and what needs changing. State the objective before giving implementation hints.
+4. Keep starter code syntactically valid and executable, with unfinished behavior rather than completed answers. The example check passes immediately, while task checks initially fail.
+5. Make the program's entry point call only `examples()`. Keep test code outside the learner file and expose one named check per task. `--examples` runs demonstrations, `--task X` checks one task, and no selector checks the full exercise.
+
+For Python, use task docstrings and the `__main__` guard. For C++, use comment blocks before each function and preserve the `TRAINING_TEST` entry-point guard. Apply equivalent native conventions when adding another language. This format is shared; adding a language backend to the runner is separate work.
 
 Python function tests import `main`. Console tests execute `main.py` with `sys.executable` and use `subprocess.run` to supply input and inspect output. Keep the learner's demonstration entry point under `if __name__ == "__main__"` so importing functions does not run it.
 

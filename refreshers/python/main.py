@@ -149,80 +149,100 @@ def examples() -> None:
         print("Caught:", type(error).__name__)
 
 
-def task_01_unique_ordered(values: list[int]) -> list[int]:
-    """TASK 1: Return distinct integers in their first-occurrence order, without modifying the input. For example, [3, 1, 3, 2] must produce [3, 1, 2].
-
-    The placeholder sorts the distinct values. Replace it with an implementation that preserves their original order.
-    """
-    return sorted(set(values))
-
-
-def task_02_latest_per_user(events: list[tuple[str, int]]) -> dict[str, int]:
-    """TASK 2: Return the maximum timestamp for each user, even when events arrive out of order. Timestamps may be negative. Empty input must return {}.
-
-    The placeholder dictionary comprehension keeps the last timestamp encountered for each user. Change it to retain the maximum.
-    """
-    return {user: timestamp for user, timestamp in events}
-
-
-def task_03_word_counts(words: list[str]) -> dict[str, int]:
-    """TASK 3: Strip surrounding whitespace and lowercase each entry, then count the normalized entries. Omit entries that become empty and preserve whitespace inside each entry.
-
-    The placeholder counts entries exactly as received. Normalize each entry before counting, without splitting it into separate words.
-    """
-    return dict(Counter(words))
-
-
-def task_04_rank_scores(scores: list[tuple[str, int]]) -> list[tuple[str, int]]:
-    """TASK 4: Return (name, score) pairs sorted by highest score first, breaking ties by ascending name. Leave the input unchanged.
-
-    The placeholder sorts only by name. Change the sorting key to apply both ordering rules.
-    """
-    return sorted(scores, key=lambda item: item[0])
-
-
-def task_05_indexed_even_squares(values: list[int]) -> list[tuple[int, int]]:
-    """TASK 5: Return (original index, squared value) pairs for even values only. Preserve input order and include negative even values and zero.
-
-    The placeholder filters even indices and leaves values unchanged. Change both the filter and the value in each result pair.
-    """
-    return [(i, value) for i, value in enumerate(values) if i % 2 == 0]
-
-
-def task_06_pair_totals(left: list[int], right: list[int]) -> list[int]:
-    """TASK 6: Return the elementwise sums of the two lists. Raise ValueError if their lengths differ. Two empty lists must produce [].
+def task_01_pair_totals(left: list[int], right: list[int]) -> list[int]:
+    """TASK 1: Return the elementwise sums of the two lists. Raise ValueError if their lengths differ. Two empty lists must produce [].
 
     The placeholder multiplies pairs and silently truncates to the shorter input. Replace multiplication with addition and enforce equal lengths.
     """
     return [a * b for a, b in zip(left, right)]
 
 
-def task_07_normalize_words(text: str) -> str:
-    """TASK 7: Split the text on whitespace, lowercase its words, and join them with a single hyphen. Whitespace-only input must produce an empty string.
+def task_02_indexed_even_squares(values: list[int]) -> list[tuple[int, int]]:
+    """TASK 2: Return (original index, squared value) pairs for even values only. Preserve input order and include negative even values and zero.
+
+    The placeholder filters even indices and leaves values unchanged. Change both the filter and the value in each result pair.
+    """
+    return [(i, value) for i, value in enumerate(values) if i % 2 == 0]
+
+
+def task_03_normalize_words(text: str) -> str:
+    """TASK 3: Split the text on whitespace, lowercase its words, and join them with a single hyphen. Whitespace-only input must produce an empty string.
 
     The placeholder rejoins words with spaces and preserves their case. Change the normalization and separator.
     """
     return " ".join(text.split())
 
 
-def task_08_smallest_k(values: list[int], k: int) -> list[int]:
-    """TASK 8: Return up to k smallest values in ascending order, preserving duplicates and leaving the input unchanged. Return [] when k <= 0.
+def task_04_append_copy(value: int, values: list[int] | None = None) -> list[int]:
+    """TASK 4: Return a new list containing the supplied values followed by value, without modifying the input. When values is omitted, return [value]. Separate calls must remain independent.
+
+    The placeholder appends directly to the supplied list. Create an independent result before modifying it.
+    """
+    if values is None:
+        values = []
+    values.append(value)
+    return values
+
+
+def task_05_running_totals(values):
+    """TASK 5: Lazily yield cumulative sums from any iterable. For example, iter([2, -1, 4]) must yield 2, 1, 5. Consume one input item per yielded result and produce nothing for empty input.
+
+    The placeholder yields the original values. Track the running sum while preserving lazy consumption.
+    """
+    for value in values:
+        yield value
+
+
+def task_06_smallest_k(values: list[int], k: int) -> list[int]:
+    """TASK 6: Return up to k smallest values in ascending order, preserving duplicates and leaving the input unchanged. Return [] when k <= 0.
 
     The placeholder selects the largest values. Change the selection to satisfy the requested order and edge cases.
     """
     return heapq.nlargest(k, values)
 
 
-def task_09_first_at_least(values: list[int], target: int) -> int:
-    """TASK 9: Given a sorted list, return the first index whose value is at least target. Return len(values) if no value qualifies, including 0 for an empty list.
+def task_07_first_at_least(values: list[int], target: int) -> int:
+    """TASK 7: Given a sorted list, return the first index whose value is at least target. Return len(values) if no value qualifies, including 0 for an empty list.
 
     The placeholder uses bisect_right, which skips values equal to target. Choose the insertion position that includes the first equal value.
     """
     return bisect_right(values, target)
 
 
-def task_10_bfs_distances(graph: dict[str, list[str]], start: str) -> dict[str, int]:
-    """TASK 10: Return the shortest number of edges from start to every reachable vertex, including start at distance 0. Handle cycles and omit unreachable vertices. A missing adjacency entry means no outgoing edges.
+def task_08_rank_scores(scores: list[tuple[str, int]]) -> list[tuple[str, int]]:
+    """TASK 8: Return (name, score) pairs sorted by highest score first, breaking ties by ascending name. Leave the input unchanged.
+
+    The placeholder sorts only by name. Change the sorting key to apply both ordering rules.
+    """
+    return sorted(scores, key=lambda item: item[0])
+
+
+def task_09_unique_ordered(values: list[int]) -> list[int]:
+    """TASK 9: Return distinct integers in their first-occurrence order, without modifying the input. For example, [3, 1, 3, 2] must produce [3, 1, 2].
+
+    The placeholder sorts the distinct values. Replace it with an implementation that preserves their original order.
+    """
+    return sorted(set(values))
+
+
+def task_10_latest_per_user(events: list[tuple[str, int]]) -> dict[str, int]:
+    """TASK 10: Return the maximum timestamp for each user, even when events arrive out of order. Timestamps may be negative. Empty input must return {}.
+
+    The placeholder dictionary comprehension keeps the last timestamp encountered for each user. Change it to retain the maximum.
+    """
+    return {user: timestamp for user, timestamp in events}
+
+
+def task_11_word_counts(words: list[str]) -> dict[str, int]:
+    """TASK 11: Strip surrounding whitespace and lowercase each entry, then count the normalized entries. Omit entries that become empty and preserve whitespace inside each entry.
+
+    The placeholder counts entries exactly as received. Normalize each entry before counting, without splitting it into separate words.
+    """
+    return dict(Counter(words))
+
+
+def task_12_bfs_distances(graph: dict[str, list[str]], start: str) -> dict[str, int]:
+    """TASK 12: Return the shortest number of edges from start to every reachable vertex, including start at distance 0. Handle cycles and omit unreachable vertices. A missing adjacency entry means no outgoing edges.
 
     The placeholder records immediate neighbors but never explores them. Complete the queue-based traversal so it reaches more distant vertices.
     """
@@ -235,26 +255,6 @@ def task_10_bfs_distances(graph: dict[str, list[str]], start: str) -> dict[str, 
                 distances[neighbor] = distances[node] + 1
                 # Complete the traversal here.
     return distances
-
-
-def task_11_running_totals(values):
-    """TASK 11: Lazily yield cumulative sums from any iterable. For example, iter([2, -1, 4]) must yield 2, 1, 5. Consume one input item per yielded result and produce nothing for empty input.
-
-    The placeholder yields the original values. Track the running sum while preserving lazy consumption.
-    """
-    for value in values:
-        yield value
-
-
-def task_12_append_copy(value: int, values: list[int] | None = None) -> list[int]:
-    """TASK 12: Return a new list containing the supplied values followed by value, without modifying the input. When values is omitted, return [value]. Separate calls must remain independent.
-
-    The placeholder appends directly to the supplied list. Create an independent result before modifying it.
-    """
-    if values is None:
-        values = []
-    values.append(value)
-    return values
 
 
 if __name__ == "__main__":

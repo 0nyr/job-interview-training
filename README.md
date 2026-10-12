@@ -13,7 +13,7 @@ Edit each directory's `main.py` or `main.cpp`. Keep practice edits uncommitted t
 
 ## Exercise contract
 
-Each directory has exactly one learner file, `main.py` or `main.cpp`, plus `test.py` containing standard-library unittest cases. Use descriptive method names such as `test_01_unique_ordered`. Each method represents one task and may check several edge cases. In both refreshers, `task_01_unique_ordered` corresponds to `test_01_unique_ordered`, selected with `--task 1`. Tests must be independent, since the runner executes each method in a fresh process.
+Each directory has exactly one learner file, `main.py` or `main.cpp`, plus `test.py` containing standard-library unittest cases. Use descriptive method names such as `test_01_unique_ordered`. Each method represents one task and may check several edge cases. In the Python refresher, `task_01_pair_totals` corresponds to `test_01_pair_totals`. In the C++ refresher, `task_01_unique_ordered` corresponds to `test_01_unique_ordered`. Both are selected with `--task 1`. Tests must be independent, since the runner executes each method in a fresh process.
 
 ### Refresher format for every language
 

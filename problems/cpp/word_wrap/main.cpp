@@ -1,4 +1,4 @@
-// C++23 word-wrapping problem. Implement TASK 1, then run its tests.
+// C++23 word-wrapping problem. Implement TASKS 1 and 2, then run their tests.
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -20,6 +20,15 @@ std::string task_01_format_text(const std::string& text, int width) {
     (void)text;
     (void)width;
     throw std::logic_error("TASK 1 is not implemented");
+}
+
+// TASK 2: Apply the same formatting rules as TASK 1 by modifying text directly, and return a std::string& referring to that same caller-owned string. Use constant auxiliary space without constructing a second formatted string or a collection of words. Reject width <= 0 with std::invalid_argument before changing text. Empty or whitespace-only text becomes an empty string. Reformatting with the same width must leave the result unchanged.
+
+// The function is unimplemented. Replace the exception with your in-place implementation. TASK 2 must work independently of TASK 1.
+std::string& task_02_format_text_in_place(std::string& text, int width) {
+    (void)text;
+    (void)width;
+    throw std::logic_error("TASK 2 is not implemented");
 }
 
 #ifndef TRAINING_TEST

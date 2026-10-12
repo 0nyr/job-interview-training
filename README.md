@@ -6,7 +6,7 @@ Reusable Python 3.13 and C++23 exercises for refreshing language fluency and pra
 
 - `refreshers/python/`: 12 tasks covering Python containers, iteration, sorting, heaps, binary search, BFS, generators, and mutation.
 - `refreshers/cpp/`: 12 tasks covering C++ containers, algorithms, ranges, heaps, binary search, BFS, references, optional values, and lambda state, with ownership examples.
-- `problems/cpp/word_wrap/`: implement greedy text formatting with a requested line width, whitespace normalization and indivisible words.
+- `problems/cpp/word_wrap/`: implement greedy text formatting as a returned copy and by modifying a string in place, with a requested line width, whitespace normalization and indivisible words.
 - `vim/python/` and `vim/cpp/`: small greeting exercises for practicing editor commands.
 - `vim/rust/`: original Rust Vim exercise, runnable manually. Rust is not supported by the workspace runner yet.
 

@@ -16,6 +16,11 @@ class Tasks(unittest.TestCase):
                                 capture_output=True, text=True, timeout=5)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def test_02_format_text_in_place(self):
+        result = subprocess.run([os.environ["TRAINING_TEST_BINARY"], "02"],
+                                capture_output=True, text=True, timeout=5)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

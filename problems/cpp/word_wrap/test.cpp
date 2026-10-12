@@ -2,8 +2,14 @@
 #include "main.cpp"
 #include <iomanip>
 #include <limits>
+#include <memory>
 #include <sstream>
+#include <type_traits>
+#include <utility>
 #include <vector>
+
+static_assert(std::is_same_v<decltype(task_02_format_text_in_place(std::declval<std::string&>(), 1)), std::string&>,
+              "TASK 2 must return a mutable std::string reference");
 
 struct Case {
     const char* name;
@@ -30,7 +36,7 @@ std::string display(const std::string& text) {
     return output.str();
 }
 
-int run_task() {
+int run_task(const std::string& task) {
     const std::vector<Case> cases{
         {"empty text", "", 8, ""},
         {"whitespace only", " \t\r\n\f\v ", 8, ""},
@@ -66,14 +72,30 @@ int run_task() {
         auto input = item.text;
         bool passed = false;
         try {
-            const auto actual = task_01_format_text(input, item.width);
-            if (item.invalid_width) {
+            std::string copied_result;
+            const std::string* actual = nullptr;
+            if (task == "01") {
+                copied_result = task_01_format_text(input, item.width);
+                actual = std::addressof(copied_result);
+            } else {
+                actual = std::addressof(task_02_format_text_in_place(input, item.width));
+            }
+            if (task == "02" && actual != std::addressof(input)) {
+                std::cerr << "FAIL " << item.name << ": returned reference must refer to the caller's string\n";
+            } else if (item.invalid_width) {
                 std::cerr << "FAIL " << item.name << ": expected std::invalid_argument\n";
-            } else if (actual != item.expected) {
-                std::cerr << "FAIL " << item.name << ": actual " << display(actual)
+            } else if (*actual != item.expected) {
+                std::cerr << "FAIL " << item.name << ": actual " << display(*actual)
                           << ", expected " << display(item.expected) << '\n';
             } else {
                 passed = true;
+                if (task == "02") {
+                    auto& repeated = task_02_format_text_in_place(input, item.width);
+                    if (std::addressof(repeated) != std::addressof(input) || input != item.expected) {
+                        passed = false;
+                        std::cerr << "FAIL " << item.name << ": repeated formatting must preserve text and reference identity\n";
+                    }
+                }
             }
         } catch (const std::invalid_argument& error) {
             passed = item.invalid_width;
@@ -81,11 +103,13 @@ int run_task() {
                 std::cerr << "FAIL " << item.name << ": unexpected invalid_argument: " << error.what() << '\n';
             }
         } catch (const std::exception& error) {
+            passed = false;
             std::cerr << "FAIL " << item.name << ": unexpected exception: " << error.what() << '\n';
         }
-        if (input != item.text) {
+        if ((task == "01" || item.invalid_width) && input != item.text) {
             passed = false;
-            std::cerr << "FAIL " << item.name << ": input was modified\n";
+            std::cerr << "FAIL " << item.name << ": input must remain unchanged"
+                      << (item.invalid_width ? " when width is invalid\n" : "\n");
         }
         if (!passed) {
             ++failures;
@@ -96,9 +120,9 @@ int run_task() {
 }
 
 int main(int argc, char** argv) {
-    if (argc != 2 || std::string(argv[1]) != "01") {
-        std::cerr << "Usage: test 01\n";
+    if (argc != 2 || (std::string(argv[1]) != "01" && std::string(argv[1]) != "02")) {
+        std::cerr << "Usage: test 01|02\n";
         return 2;
     }
-    return run_task();
+    return run_task(argv[1]);
 }

@@ -194,51 +194,30 @@ void examples() {
 }
 
 
-// TASK 1: Return distinct integers in first-occurrence order without modifying the input. For example, {3, 1, 3, 2} must produce {3, 1, 2}.
+// TASK 1: Return std::nullopt for a zero denominator, otherwise return the real-valued quotient of the two integers.
 
-// The placeholder uses a sorted set. Change it to retain the original order of first appearances.
-std::vector<int> task_01_unique_ordered(const std::vector<int>& values) {
-    std::set<int> unique(values.begin(), values.end());
-    return {unique.begin(), unique.end()};
-}
-
-// TASK 2: Return the maximum timestamp for each user, even when events arrive out of order. Timestamps may be negative. Empty input must produce an empty map.
-
-// The placeholder overwrites each entry with the last timestamp encountered. Keep the maximum instead, without assuming timestamps start at zero.
-std::map<std::string, int> task_02_latest_per_user(const Scores& events) {
-    std::map<std::string, int> latest;
-    for (const auto& [user, timestamp] : events) {
-        latest[user] = timestamp;
+// The placeholder performs integer division before converting the result. Ensure the division itself uses floating-point arithmetic.
+std::optional<double> task_01_safe_divide(int numerator, int denominator) {
+    if (denominator == 0) {
+        return std::nullopt;
     }
-    return latest;
+    return numerator / denominator;
 }
 
-// TASK 3: Split the text on whitespace, lowercase each ASCII token, and count its occurrences. Keep punctuation attached to tokens. Whitespace-only input must produce an empty map.
+// TASK 2: Return a new vector with every value clamped to the inclusive interval [low, high], leaving the input unchanged. Assume low <= high.
 
-// The placeholder counts tokens with their original case. Normalize each token before counting. Pass unsigned-char values to std::tolower.
-std::map<std::string, int> task_03_word_counts(const std::string& text) {
-    std::istringstream input(text);
-    std::map<std::string, int> counts;
-    for (std::string word; input >> word;) {
-        ++counts[word];
-    }
-    return counts;
+// The placeholder returns an unchanged copy. Apply the bounds to every element in that copy.
+std::vector<int> task_02_clamp_copy(const std::vector<int>& values, int low, int high) {
+    auto result = values;
+    (void)low;
+    (void)high;
+    return result;
 }
 
-// TASK 4: Return name/score pairs sorted by highest score first, breaking ties by ascending name. Leave the caller's vector unchanged and retain duplicates.
-
-// The placeholder sorts its local copy only by name. Change the comparator to implement both rules. The comparison must be strict, including for equal entries.
-Scores task_04_rank_scores(Scores scores) {
-    std::ranges::sort(scores, [](const auto& a, const auto& b) {
-        return a.first < b.first;
-    });
-    return scores;
-}
-
-// TASK 5: Return squared even values in input order, including negative even values and zero, without modifying the input. Assume every square fits in int.
+// TASK 3: Return squared even values in input order, including negative even values and zero, without modifying the input. Assume every square fits in int.
 
 // The placeholder filters even values but leaves them unchanged. Transform each selected value before adding it to the result.
-std::vector<int> task_05_even_squares(const std::vector<int>& values) {
+std::vector<int> task_03_even_squares(const std::vector<int>& values) {
     std::vector<int> result;
     for (int value : values | std::views::filter([](int x) { return x % 2 == 0; })) {
         result.push_back(value);
@@ -246,10 +225,66 @@ std::vector<int> task_05_even_squares(const std::vector<int>& values) {
     return result;
 }
 
-// TASK 6: Return up to k smallest values in ascending order, retaining duplicates and leaving the input unchanged. Return an empty vector when k <= 0.
+// TASK 4: Return cumulative sums in input order without modifying the input. For example, {2, -1, 4} must produce {2, 1, 5}. Assume all sums fit in int.
+
+// The placeholder reserves capacity and copies the original values. Accumulate the values as you populate the result.
+std::vector<int> task_04_running_totals(const std::vector<int>& values) {
+    std::vector<int> result;
+    result.reserve(values.size());
+    for (int value : values) {
+        result.push_back(value);
+    }
+    return result;
+}
+
+// TASK 5: Given a sorted vector, return the number of occurrences of target, including zero when it is absent. Use the lower and upper insertion boundaries.
+
+// The placeholder returns the index of the lower boundary. Compute the distance between the two boundaries instead.
+std::size_t task_05_equal_range_count(const std::vector<int>& values, int target) {
+    auto first = std::lower_bound(values.begin(), values.end(), target);
+    return static_cast<std::size_t>(std::distance(values.begin(), first));
+}
+
+// TASK 6: Return name/score pairs sorted by highest score first, breaking ties by ascending name. Leave the caller's vector unchanged and retain duplicates.
+
+// The placeholder sorts its local copy only by name. Change the comparator to implement both rules. The comparison must be strict, including for equal entries.
+Scores task_06_rank_scores(Scores scores) {
+    std::ranges::sort(scores, [](const auto& a, const auto& b) {
+        return a.first < b.first;
+    });
+    return scores;
+}
+
+// TASK 7: Return a callable whose first call returns start and each subsequent call returns the next integer. Copies of the callable must own independent state. Assume counter values stay representable by int.
+
+// The placeholder captures start by value but never updates it. Modify the captured state without borrowing a local variable that goes out of scope.
+auto task_07_make_counter(int start) {
+    return [start]() mutable { return start; };
+}
+
+// TASK 8: Return distinct integers in first-occurrence order without modifying the input. For example, {3, 1, 3, 2} must produce {3, 1, 2}.
+
+// The placeholder uses a sorted set. Change it to retain the original order of first appearances.
+std::vector<int> task_08_unique_ordered(const std::vector<int>& values) {
+    std::set<int> unique(values.begin(), values.end());
+    return {unique.begin(), unique.end()};
+}
+
+// TASK 9: Return the maximum timestamp for each user, even when events arrive out of order. Timestamps may be negative. Empty input must produce an empty map.
+
+// The placeholder overwrites each entry with the last timestamp encountered. Keep the maximum instead, without assuming timestamps start at zero.
+std::map<std::string, int> task_09_latest_per_user(const Scores& events) {
+    std::map<std::string, int> latest;
+    for (const auto& [user, timestamp] : events) {
+        latest[user] = timestamp;
+    }
+    return latest;
+}
+
+// TASK 10: Return up to k smallest values in ascending order, retaining duplicates and leaving the input unchanged. Return an empty vector when k <= 0.
 
 // The placeholder extracts the largest values from a max-heap. Change the heap ordering or selection strategy to satisfy the task.
-std::vector<int> task_06_smallest_k(const std::vector<int>& values, int k) {
+std::vector<int> task_10_smallest_k(const std::vector<int>& values, int k) {
     std::priority_queue<int> heap(values.begin(), values.end());
     std::vector<int> result;
     while (k-- > 0 && !heap.empty()) {
@@ -259,18 +294,22 @@ std::vector<int> task_06_smallest_k(const std::vector<int>& values, int k) {
     return result;
 }
 
-// TASK 7: Given a sorted vector, return the number of occurrences of target, including zero when it is absent. Use the lower and upper insertion boundaries.
+// TASK 11: Split the text on whitespace, lowercase each ASCII token, and count its occurrences. Keep punctuation attached to tokens. Whitespace-only input must produce an empty map.
 
-// The placeholder returns the index of the lower boundary. Compute the distance between the two boundaries instead.
-std::size_t task_07_equal_range_count(const std::vector<int>& values, int target) {
-    auto first = std::lower_bound(values.begin(), values.end(), target);
-    return static_cast<std::size_t>(std::distance(values.begin(), first));
+// The placeholder counts tokens with their original case. Normalize each token before counting. Pass unsigned-char values to std::tolower.
+std::map<std::string, int> task_11_word_counts(const std::string& text) {
+    std::istringstream input(text);
+    std::map<std::string, int> counts;
+    for (std::string word; input >> word;) {
+        ++counts[word];
+    }
+    return counts;
 }
 
-// TASK 8: Return the shortest edge count from start to each reachable vertex, including start at distance 0. Handle cycles and omit unreachable vertices. Missing adjacency entries mean no outgoing edges.
+// TASK 12: Return the shortest edge count from start to each reachable vertex, including start at distance 0. Handle cycles and omit unreachable vertices. Missing adjacency entries mean no outgoing edges.
 
 // The placeholder records immediate neighbors but never explores them. Complete the FIFO traversal so it reaches more distant vertices.
-std::map<std::string, int> task_08_bfs_distances(const Graph& graph, const std::string& start) {
+std::map<std::string, int> task_12_bfs_distances(const Graph& graph, const std::string& start) {
     std::map<std::string, int> distances{{start, 0}};
     std::queue<std::string> pending;
     pending.push(start);
@@ -289,45 +328,6 @@ std::map<std::string, int> task_08_bfs_distances(const Graph& graph, const std::
         }
     }
     return distances;
-}
-
-// TASK 9: Return cumulative sums in input order without modifying the input. For example, {2, -1, 4} must produce {2, 1, 5}. Assume all sums fit in int.
-
-// The placeholder reserves capacity and copies the original values. Accumulate the values as you populate the result.
-std::vector<int> task_09_running_totals(const std::vector<int>& values) {
-    std::vector<int> result;
-    result.reserve(values.size());
-    for (int value : values) {
-        result.push_back(value);
-    }
-    return result;
-}
-
-// TASK 10: Return a new vector with every value clamped to the inclusive interval [low, high], leaving the input unchanged. Assume low <= high.
-
-// The placeholder returns an unchanged copy. Apply the bounds to every element in that copy.
-std::vector<int> task_10_clamp_copy(const std::vector<int>& values, int low, int high) {
-    auto result = values;
-    (void)low;
-    (void)high;
-    return result;
-}
-
-// TASK 11: Return std::nullopt for a zero denominator, otherwise return the real-valued quotient of the two integers.
-
-// The placeholder performs integer division before converting the result. Ensure the division itself uses floating-point arithmetic.
-std::optional<double> task_11_safe_divide(int numerator, int denominator) {
-    if (denominator == 0) {
-        return std::nullopt;
-    }
-    return numerator / denominator;
-}
-
-// TASK 12: Return a callable whose first call returns start and each subsequent call returns the next integer. Copies of the callable must own independent state. Assume counter values stay representable by int.
-
-// The placeholder captures start by value but never updates it. Modify the captured state without borrowing a local variable that goes out of scope.
-auto task_12_make_counter(int start) {
-    return [start]() mutable { return start; };
 }
 
 #ifndef TRAINING_TEST

@@ -4,9 +4,9 @@ Read `examples()` near the top of `main.cpp`, then run it to refresh C++ syntax 
 
 ## What to do
 
-Each task is named `task_XX_description`, such as `task_03_word_counts`, with its full C++ signature. The preceding comment states `TASK X:` and the objective first. After a blank line, a separate comment explains the placeholder. The starter functions compile but deliberately do not satisfy their task contracts.
+Each task is named `task_XX_description`, such as `task_11_word_counts`, with its full C++ signature. The preceding comment states `TASK X:` and the objective first. After a blank line, a separate comment explains the placeholder. The starter functions compile but deliberately do not satisfy their task contracts.
 
-For TASK 1, `task_01_unique_ordered({3, 1, 3, 2})` must return `{3, 1, 2}`, preserving first-occurrence order. Its placeholder returns `{1, 2, 3}` because it uses a sorted set. Change the task function, save the file, and run `--task 1`. Do not change the tests' expected answers.
+For TASK 1, `task_01_safe_divide(3, 2)` must return an optional containing `1.5`. Its placeholder returns an optional containing `1.0` because it performs integer division before conversion. Change the task function, save the file, and run `--task 1`. Do not change the tests' expected answers.
 
 Work on one function at a time: read its TASK comment, run its check, edit the function, and rerun the check. 🟢 means the task's checks pass. 🔴 means they have not passed; the output explains the failed condition or compilation/runtime error.
 
@@ -17,7 +17,7 @@ From the workspace root:
 ```bash
 python src/train.py job-interview-training/refreshers/cpp --examples
 python src/train.py job-interview-training/refreshers/cpp --task 1
-python src/train.py job-interview-training/refreshers/cpp --task task_03_word_counts
+python src/train.py job-interview-training/refreshers/cpp --task task_11_word_counts
 python src/train.py job-interview-training/refreshers/cpp
 ```
 

@@ -1,15 +1,18 @@
 # Job interview training
 
-Reusable Python 3.13 and C++23 exercises for refreshing language fluency. Each refresher combines runnable examples with numbered modification prompts. The examples work immediately; the corresponding task tests initially fail until the requested modifications are completed.
+Reusable Python 3.13 and C++23 exercises for refreshing language fluency and practicing interview problems. Each refresher combines runnable examples with numbered modification prompts. The problem family provides unimplemented functions with contract tests. Examples work immediately. The corresponding task tests initially fail until the requested implementation is completed.
 
 ## Exercises
 
 - `refreshers/python/`: 12 tasks covering Python containers, iteration, sorting, heaps, binary search, BFS, generators, and mutation.
 - `refreshers/cpp/`: 12 tasks covering C++ containers, algorithms, ranges, heaps, binary search, BFS, references, optional values, and lambda state, with ownership examples.
+- `problems/cpp/word_wrap/`: implement greedy text formatting with a requested line width, whitespace normalization and indivisible words.
 - `vim/python/` and `vim/cpp/`: small greeting exercises for practicing editor commands.
 - `vim/rust/`: original Rust Vim exercise, runnable manually. Rust is not supported by the workspace runner yet.
 
 Edit each directory's `main.py` or `main.cpp`. Keep practice edits uncommitted to preserve reusable starting points. Only commit deliberate improvements to the exercise material.
+
+The `problems/<language>/<problem>/` family contains focused interview problems with an unimplemented function and contract tests. Each problem uses the same workspace runner as the refreshers. Start with the [C++ word-wrapping problem](problems/cpp/word_wrap/README.md).
 
 ## Exercise contract
 

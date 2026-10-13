@@ -1,6 +1,7 @@
 #define TRAINING_TEST
 #include "main.cpp"
 #include <iomanip>
+#include <iostream>
 #include <limits>
 #include <memory>
 #include <sstream>
@@ -8,8 +9,8 @@
 #include <utility>
 #include <vector>
 
-static_assert(std::is_same_v<decltype(task_02_format_text_in_place(std::declval<std::string&>(), 1)), std::string&>,
-              "TASK 2 must return a mutable std::string reference");
+static_assert(std::is_same_v<decltype(task_01_format_text_in_place(std::declval<std::string&>(), 1)), std::string&>,
+              "TASK 1 must return a mutable std::string reference");
 
 struct Case {
     const char* name;
@@ -28,7 +29,16 @@ std::string display(const std::string& text) {
         case '\t': escaped += "\\t"; break;
         case '\f': escaped += "\\f"; break;
         case '\v': escaped += "\\v"; break;
-        default: escaped += character;
+        default:
+            const auto byte = static_cast<unsigned char>(character);
+            if (byte < 32 || byte >= 127) {
+                constexpr char digits[] = "0123456789ABCDEF";
+                escaped += "\\x";
+                escaped += digits[byte >> 4];
+                escaped += digits[byte & 15];
+            } else {
+                escaped += character;
+            }
         }
     }
     std::ostringstream output;
@@ -36,7 +46,7 @@ std::string display(const std::string& text) {
     return output.str();
 }
 
-int run_task(const std::string& task) {
+int run_task() {
     const std::vector<Case> cases{
         {"empty text", "", 8, ""},
         {"whitespace only", " \t\r\n\f\v ", 8, ""},
@@ -59,6 +69,8 @@ int run_task(const std::string& task) {
         {"word at width followed by a word", "abcd e", 4, "abcd\ne"},
         {"width one", "a b cc d", 1, "a\nb\ncc\nd"},
         {"punctuation and case preserved", "Hello, C++! Keep-case.", 11, "Hello, C++!\nKeep-case."},
+        {"non-ASCII bytes and embedded NUL preserved", std::string("\x80\xA0\xFF x\0y", 7), 3,
+         std::string("\x80\xA0\xFF\nx\0y", 7)},
         {"maximum width", "one two", std::numeric_limits<int>::max(), "one two"},
         {"zero width", "one two", 0, "", true},
         {"negative width", "one two", -3, "", true},
@@ -72,15 +84,8 @@ int run_task(const std::string& task) {
         auto input = item.text;
         bool passed = false;
         try {
-            std::string copied_result;
-            const std::string* actual = nullptr;
-            if (task == "01") {
-                copied_result = task_01_format_text(input, item.width);
-                actual = std::addressof(copied_result);
-            } else {
-                actual = std::addressof(task_02_format_text_in_place(input, item.width));
-            }
-            if (task == "02" && actual != std::addressof(input)) {
+            const auto* actual = std::addressof(task_01_format_text_in_place(input, item.width));
+            if (actual != std::addressof(input)) {
                 std::cerr << "FAIL " << item.name << ": returned reference must refer to the caller's string\n";
             } else if (item.invalid_width) {
                 std::cerr << "FAIL " << item.name << ": expected std::invalid_argument\n";
@@ -89,12 +94,10 @@ int run_task(const std::string& task) {
                           << ", expected " << display(item.expected) << '\n';
             } else {
                 passed = true;
-                if (task == "02") {
-                    auto& repeated = task_02_format_text_in_place(input, item.width);
-                    if (std::addressof(repeated) != std::addressof(input) || input != item.expected) {
-                        passed = false;
-                        std::cerr << "FAIL " << item.name << ": repeated formatting must preserve text and reference identity\n";
-                    }
+                auto& repeated = task_01_format_text_in_place(input, item.width);
+                if (std::addressof(repeated) != std::addressof(input) || input != item.expected) {
+                    passed = false;
+                    std::cerr << "FAIL " << item.name << ": repeated formatting must preserve text and reference identity\n";
                 }
             }
         } catch (const std::invalid_argument& error) {
@@ -106,10 +109,9 @@ int run_task(const std::string& task) {
             passed = false;
             std::cerr << "FAIL " << item.name << ": unexpected exception: " << error.what() << '\n';
         }
-        if ((task == "01" || item.invalid_width) && input != item.text) {
+        if (item.invalid_width && input != item.text) {
             passed = false;
-            std::cerr << "FAIL " << item.name << ": input must remain unchanged"
-                      << (item.invalid_width ? " when width is invalid\n" : "\n");
+            std::cerr << "FAIL " << item.name << ": input must remain unchanged when width is invalid\n";
         }
         if (!passed) {
             ++failures;
@@ -120,9 +122,9 @@ int run_task(const std::string& task) {
 }
 
 int main(int argc, char** argv) {
-    if (argc != 2 || (std::string(argv[1]) != "01" && std::string(argv[1]) != "02")) {
-        std::cerr << "Usage: test 01|02\n";
+    if (argc != 2 || std::string(argv[1]) != "01") {
+        std::cerr << "Usage: test 01\n";
         return 2;
     }
-    return run_task(argv[1]);
+    return run_task();
 }
